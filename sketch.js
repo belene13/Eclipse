@@ -2,6 +2,7 @@ let handPose;
 let video;
 let hands = [];
 
+
 // Sol y luna
 let sun;
 let moon;
@@ -22,6 +23,8 @@ let alarmVolume = 0.1;
 let stars = [];
 
 
+
+  
 function preload() {
   handPose = ml5.handPose();
 }
@@ -164,20 +167,29 @@ function createStars() {
     stars.push({
       x: random(width),
       y: random(height),
-      r: random(1, 2.5)
+      r: random(1, 2.5),
+      baseAlpha: random(100, 255),
+      speed: random(0.1, 0.25),
+      phase: random(TWO_PI)
     });
   }
 }
 
+
 function drawStarSky() {
   background(0);
-
   noStroke();
-  fill(255);
+
   for (let s of stars) {
+    let alpha =
+      s.baseAlpha +
+      sin(frameCount * s.speed + s.phase) * 80;
+
+    fill(255, constrain(alpha, 50, 255));
     circle(s.x, s.y, s.r);
   }
 }
+
 
 
 function drawFinalMessage() {
